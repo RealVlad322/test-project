@@ -18,21 +18,14 @@ services:
     restart: always
 
   mongo:
-    image: 'mongo:6'
-    container_name: 'test_project'
-    restart: 'unless-stopped'
+    image: mongo:latest
+    networks:
+      - backend
     environment:
       - 'MONGO_INITDB_ROOT_USERNAME=dev'
       - 'MONGO_INITDB_ROOT_PASSWORD=dev'
     ports:
       - '47017:27017'
-    networks:
-      - 'backend'
-    logging:
-      driver: 'json-file'
-      options:
-        max-file: '10'
-        max-size: '1m'
 
   rabbitmq:
     image: rabbitmq:management
