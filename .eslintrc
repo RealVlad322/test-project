@@ -1,0 +1,63 @@
+{
+  "ignorePatterns": [
+    "dist/",
+    "node_modules/"
+  ],
+  "root": true,
+  "env": {
+    "node": true
+  },
+  "plugins": [
+    "@evojs"
+  ],
+  "extends": [
+    "plugin:@evojs/ecmascript"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 2022
+  },
+  "rules": {
+    "strict": "off"
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/*.ts"
+      ],
+      "plugins": [
+        "@evojs"
+      ],
+      "extends": [
+        "plugin:@evojs/typescript"
+      ],
+      "parserOptions": {
+        "project": "tsconfig.json",
+        "sourceType": "module"
+      },
+      "rules": {
+        // "@typescript-eslint/no-unnecessary-type-assertion": "off",
+        "lodash/prefer-matches": "off",
+        "no-mixed-operators": "off",
+        "function-call-argument-newline": [
+          "warn",
+          "consistent"
+        ],
+        "no-restricted-imports": [
+          "warn",
+          {
+            "paths": [
+              ".",
+              "..",
+              "../.."
+            ],
+            "patterns": [
+              "**/../utils",
+              "**/../common",
+              "**/../shared"
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

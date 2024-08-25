@@ -1,0 +1,15 @@
+export const idAndHash = {
+  PM3: ['86e', 'n6ryr6edkv15scgowc2pijmia41nhosm.xls'],
+  PMB3: ['3f1', 'q0jc9qu37qkyshn9oz7rotieyw8t72v9.xls'],
+  IS1: ['161', 'epziqj4e87qg4xg2i9tuv2qti7v1816o.xls'],
+  IS2: ['1f4', '400kod0j5aevq05wl9itaadvyzq3vwop.xls'],
+  ISA1: ['963', 'x15s1b5uv7iym4mbpxi5qifa7rf1qhd8.xls'],
+  IVM2: ['9a0', '35ppigrqd95el6ttgbc4bmab9gx7s68a.xls'],
+  IVM3: ['1af', 'ft9859i0wcxvwfnrcwzem8dn55xumu1r.xls'],
+  IVM4: ['3ee', '84irai63b7410zz7medoz1vi084xwrkc.xls'],
+  BIS1: ['cbc', 'sxvr0a8g6qkse4al2ekzg5s4b01sn4c9.xls'],
+  BIS2: ['3c3', 'v8vkr0nnlizpihs123ervkzjoxo0xoov.xls'],
+  BIS3: ['1be', '6quvyelcnlkwfmkn5b0tc330lwxc8srx.xls'],
+  BIS4: ['afb', '2afykqszjpowyppqpd3d4k8etwih3iw2.xls'],
+  BIS5: ['dce', 'va8klcyfvazlenu1641p9dem56szdsq4.xls'],
+};

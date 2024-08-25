@@ -1,0 +1,18 @@
+#!/bin/bash -e
+
+export ENV=${ENV:-development}
+
+for x in $(grep -v '^#' .env/default.env | sed 's| |<$--space--$>|g' | xargs -0); do
+  eval "export $(echo $x | sed 's|\<\$--space--\$\>| |g')"
+done
+
+if [ -f ".env/$ENV.env" ]; then
+  for x in $(grep -v '^#' .env/$ENV.env | sed 's| |<$--space--$>|g' | xargs -0); do
+    eval "export $(echo $x | sed 's|\<\$--space--\$\>| |g')"
+  done
+else
+  echo "File .env/$ENV.env not found"
+  exit 1
+fi
+
+export ENV_LOCAL=true

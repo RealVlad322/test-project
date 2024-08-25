@@ -1,0 +1,41 @@
+#!/bin/bash
+
+rm -rf dist/
+
+nest build
+
+# source ./localenv
+
+shift
+
+max_thread_count=10
+thread_count=0
+pids=()
+start_apps="$*"
+
+for app in $(ls -d dist/apps/*/); do
+  app_name=$(basename ${app})
+  
+  if [ -z "$start_apps" ] || [[ " ${start_apps} " =~ " ${app_name} " ]]; then
+    APP=${app_name} npm run tt &
+    pids+=($!)
+    thread_count=$((thread_count + 1))
+  fi
+
+  if [ $thread_count -ge $max_thread_count ]; then
+    sleep 4
+    thread_count=0
+  fi
+done
+
+function stop_processes {
+  for pid in "${pids[@]}"; do
+    kill $pid
+  done
+}
+
+trap stop_processes SIGINT
+
+for pid in "${pids[@]}"; do
+  wait $pid
+done

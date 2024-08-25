@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src/",
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "lib": ["esnext"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noImplicitAny": false,
+    "outDir": "dist/",
+    "paths": {
+      "@/shared/preload": ["shared/preload"],
+      "@/shared/constants": ["shared/constants"],
+      "@/shared/schemas": ["shared/schemas"],
+      "@/shared/dtos": ["shared/dtos"],
+      "@/shared/pipes": ["shared/pipes"],
+      "@/shared/contract": ["shared/contract/index"],
+      "@/shared/contract/services/*": ["shared/contract/services/*"],
+      "@/shared/lib": ["shared/lib/index"],
+      "@/shared/database/*": ["shared/database/*"],
+      "@evojs/amqp": ["shared/lib/amqp/index"],
+    },
+    "removeComments": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "target": "esnext",
+  },
+  "exclude": ["node_modules/", "dist/", "e2e/", "**/*.spec.ts"]
+}
