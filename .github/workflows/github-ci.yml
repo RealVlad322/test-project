@@ -38,13 +38,13 @@ jobs:
         mkdir -p ~/.ssh
 
         # Добавьте ключ хоста сервера в known_hosts
-        ssh-keyscan -H your-server-ip >> ~/.ssh/known_hosts
+        ssh-keyscan -H 185.189.167.8>> ~/.ssh/known_hosts
 
         # Копируйте файлы на сервер
-        scp -i id_rsa docker-compose.yml your-server-user@your-server-ip:/path/to/deploy/
+        scp -i id_rsa docker-compose.yml root@185.189.167.8:/path/to/deploy/
     
         # Подключитесь к серверу и выполните команды
-        ssh -i id_rsa your-server-user@your-server-ip << 'EOF'
+        ssh -i id_rsa root@185.189.167.8<< 'EOF'
           cd /path/to/deploy/
           docker-compose pull
           docker-compose up -d
