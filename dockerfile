@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Собираем проект, если необходимо (для TypeScript или других компилируемых языков)
-RUN npm run dev
+RUN npm run build
 
 # Указываем порт, который будет использовать контейнер
 EXPOSE 3000
