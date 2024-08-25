@@ -35,6 +35,8 @@ jobs:
         echo "$SSH_PRIVATE_KEY" > id_rsa
         chmod 600 id_rsa
 
+        mkdir -p ~/.ssh
+
         # Добавьте ключ хоста сервера в known_hosts
         ssh-keyscan -H your-server-ip >> ~/.ssh/known_hosts
 
