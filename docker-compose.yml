@@ -1,41 +1,48 @@
-# version: '3.8'
+version: '3.8'  # Убедитесь, что у вас актуальная версия Compose
 
 services:
-  backend:
-    image: therealyou322/backend:latest
-    container_name: backend
-    ports:
-      - "3000:3000"  # Основной порт приложения
-      - "3001:3001"  # Дополнительный порт 1
-      - "3002:3002"  # Дополнительный порт 2
-      - "3003:3003"  # Дополнительный порт 3# Замените на порт вашего приложения
-    depends_on:
-      - mongo
-      - rabbitmq
-    environment:
-      DATABASE_URL: mongodb://dev:dev@mongo:27017/
-      RABBITMQ_URL: amqp://user:password@rabbitmq:5672
-    restart: always
-
   mongo:
     image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
     networks:
       - backend
-    environment:
-      - 'MONGO_INITDB_ROOT_USERNAME=dev'
-      - 'MONGO_INITDB_ROOT_PASSWORD=dev'
-    ports:
-      - '47017:27017'
 
   rabbitmq:
     image: rabbitmq:management
     container_name: rabbitmq
     ports:
-      - "5672:5672"  # RabbitMQ default port
-      - "15672:15672"  # RabbitMQ management UI
+      - "5672:5672"
+      - "15672:15672"
     environment:
       RABBITMQ_DEFAULT_USER: user
       RABBITMQ_DEFAULT_PASS: password
+    networks:
+      - backend
+
+  backend:
+    image: therealyou322/backend:latest
+    container_name: backend
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+      - "3002:3002"
+      - "3003:3003"
+    depends_on:
+      - mongo
+      - rabbitmq
+    environment:
+      DATABASE_URL: mongodb://mongo:27017/your-database
+      RABBITMQ_URL: amqp://user:password@rabbitmq:5672
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
 
 volumes:
   mongo-data:
