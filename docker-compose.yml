@@ -2,14 +2,12 @@ version: '3.8'  # Убедитесь, что у вас актуальная ве
 
 services:
   mongo:
-    image: "mongo:5.0"
-    volumes:
-      - "/data/docker/mongodb_data:/data/db"
-      - /data/docker/mongodb-linux-x86_64-5.0.17/bin/mongos:/bin/mongos:ro
-      - /data/docker/mongodb-linux-x86_64-5.0.17/bin/mongod:/bin/mongod:ro
+    image: mongo:latest
     container_name: mongo
     ports:
       - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
     networks:
       - backend
 
