@@ -12,7 +12,7 @@ import { MstucaLinkService } from './mstuca-link.service';
 @Module({
   imports: [
     ScheduleModule.forRoot(),
-    MongooseModule.forRoot('mongodb://mogno:27017/'),
+    MongooseModule.forRoot('mongodb://mongo:27017/'),
     MongooseModule.forFeature([{ name: Link.name, schema: LinkSchema }]),
   ],
   controllers: [MstucaLinkController],
