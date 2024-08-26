@@ -7,6 +7,8 @@ import { MstucaSheduleModule } from './mstuca-shedule.module';
 
 const appName = process.env.APP;
 
+console.log(process.env.DATABASE_URL, process.env.RABBITMQ_URL);
+
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(MstucaSheduleModule);
   app.useGlobalPipes(new ValidationPipe({
