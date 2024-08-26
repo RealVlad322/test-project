@@ -6,7 +6,7 @@ export class ParseDatePipe implements PipeTransform<string, string> {
   transform(value: string, metadata: ArgumentMetadata): string {
     // const val = parseInt(value, 10);
 
-    if (isDate(value)) {
+    if (!isDate(value)) {
       throw new BadRequestException('Validation failed');
     }
 

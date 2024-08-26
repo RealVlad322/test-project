@@ -23,6 +23,8 @@ jobs:
         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
     - name: Build and push Docker image
+      with: 
+        platforms: linux/arm64/v8
       run: |
         docker build -t therealyou322/backend:latest .
         docker push therealyou322/backend:latest
@@ -51,6 +53,7 @@ jobs:
         ssh -i id_rsa root@185.189.167.8<< 'EOF'
           cd /path/to/deploy/
           docker-compose pull
+          docker-compose down
           docker-compose up -d
         EOF
 
