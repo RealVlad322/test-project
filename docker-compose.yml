@@ -10,6 +10,9 @@ services:
       - mongo-data:/data/db
     networks:
       - backend
+    environment:
+      - 'MONGO_INITDB_ROOT_USERNAME=mstuca_master'
+      - 'MONGO_INITDB_ROOT_PASSWORD=mstuca_master'
 
   rabbitmq:
     image: rabbitmq:management
@@ -35,7 +38,7 @@ services:
       - mongo
       - rabbitmq
     environment:
-      DATABASE_URL: mongodb://mongo:27017/
+      DATABASE_URL: mongodb://mstuca_master:mstuca_master@mongo:27017/
       RABBITMQ_URL: amqp://user:password@rabbitmq:5672
     networks:
       - backend
