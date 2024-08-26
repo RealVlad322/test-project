@@ -2,7 +2,7 @@ version: '3.8'  # Убедитесь, что у вас актуальная ве
 
 services:
   mongo:
-    image: mongo:latest
+    image: mongo:4.4.18
     container_name: mongo
     ports:
       - "27017:27017"

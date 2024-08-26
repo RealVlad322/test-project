@@ -25,7 +25,7 @@ import { MstucaStatXlsxConverterService } from './mstuca-stat-xslx-converter.ser
         },
       },
     ]),
-    MongooseModule.forRoot('mongodb://dev:dev@localhost:47017/'),
+    MongooseModule.forRoot('mongodb://localhost:27017/'),
     MongooseModule.forFeature([{ name: Link.name, schema: LinkSchema }]),
   ],
   controllers: [MstucaSheduleAmqpController, MstucaSheduleController],
