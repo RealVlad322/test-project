@@ -8,8 +8,6 @@ import { MstucaSheduleModule } from './mstuca-shedule.module';
 
 const appName = process.env.APP;
 
-console.log(process.env);
-
 const RABBITMQ_URL = process.env.RABBITMQ_URL;
 
 async function bootstrap(): Promise<void> {
