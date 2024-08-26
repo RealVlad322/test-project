@@ -9,7 +9,7 @@ import { SheduleService } from './shedule.service';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://dev:dev@localhost:27017/'),
+    MongooseModule.forRoot('mongodb://mongo:27017/'),
     MongooseModule.forFeature([{ name: Shedule.name, schema: SheduleSchema }]),
     ClientsModule.register([
       {
