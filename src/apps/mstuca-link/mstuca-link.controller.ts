@@ -46,6 +46,15 @@ export class MstucaLinkController {
     await this.mstucaLinkService.deleteById(id);
   }
 
+  @Get('forceSync')
+  async syncForceLinks(): Promise<void> {
+    const result = await this.mstucaLinkHttpService.getLinksForCreate();
+
+    result.forEach((i) => {
+      void this.mstucaLinkService.updateOne(i);
+    });
+  }
+
   @Cron(CronExpression.EVERY_DAY_AT_1AM)
   async syncLinks(): Promise<void> {
     const result = await this.mstucaLinkHttpService.getLinksForCreate();
