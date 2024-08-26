@@ -1,5 +1,4 @@
-import { Type } from 'class-transformer';
-import { IsArray, IsNumber, IsString, ValidateNested } from 'class-validator';
+import { IsArray, IsNumber, IsString } from 'class-validator';
 
 import { SubjectDto } from '../dtos';
 
@@ -25,8 +24,6 @@ export class SheduleOut {
   @IsNumber()
   declare week?: number;
 
-  @IsArray({})
-  @ValidateNested({ each: true })
-  @Type(() => SubjectDto)
+  @IsArray()
   declare subjects: SubjectDto[];
 }
