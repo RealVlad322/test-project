@@ -7,16 +7,27 @@ import { SheduleAmqpController } from './shedule.amqp-controller';
 import { SheduleController } from './shedule.controller';
 import { SheduleService } from './shedule.service';
 
+const RABBITMQ_URL = process.env.RABBITMQ_URL;
+const DATABASE_URL = process.env.DATABASE_URL;
+
+if (!RABBITMQ_URL) {
+  throw new Error('RABBITMQ_URL is not defined');
+}
+
+if (!DATABASE_URL) {
+  throw new Error('DATABASE_URL is no defined');
+}
+
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://mongo:27017/'),
+    MongooseModule.forRoot(DATABASE_URL),
     MongooseModule.forFeature([{ name: Shedule.name, schema: SheduleSchema }]),
     ClientsModule.register([
       {
         name: 'MSTUCA_SCHEDULE_SERVICE',
         transport: Transport.RMQ,
         options: {
-          urls: ['amqp://user:password@rabbitmq:5672'],
+          urls: [RABBITMQ_URL],
           queue: 'save_queue',
           queueOptions: {
             durable: false,

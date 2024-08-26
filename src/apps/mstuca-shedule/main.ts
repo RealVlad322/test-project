@@ -1,4 +1,5 @@
 import { t } from '@/shared/constants';
+import { AmqpQueues } from '@/shared/dtos';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { type MicroserviceOptions, Transport } from '@nestjs/microservices';
@@ -7,9 +8,15 @@ import { MstucaSheduleModule } from './mstuca-shedule.module';
 
 const appName = process.env.APP;
 
-console.log(process.env.DATABASE_URL, process.env.RABBITMQ_URL);
+console.log(process.env);
+
+const RABBITMQ_URL = process.env.RABBITMQ_URL;
 
 async function bootstrap(): Promise<void> {
+  if (!RABBITMQ_URL) {
+    throw new Error('RABBITMQ_URL is not defined');
+  }
+
   const app = await NestFactory.create(MstucaSheduleModule);
   app.useGlobalPipes(new ValidationPipe({
     transform: true,
@@ -19,8 +26,8 @@ async function bootstrap(): Promise<void> {
   app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.RMQ,
     options: {
-      urls: ['amqp://user:password@rabbitmq:5672'],
-      queue: 'data_queue',
+      urls: [RABBITMQ_URL],
+      queue: AmqpQueues.DATA_QUEUE,
       queueOptions: {
         durable: false,
       },

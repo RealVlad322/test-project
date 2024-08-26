@@ -5,6 +5,12 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { SyncSheduleController } from './sync-shedule.controller';
 import { SyncSheduleService } from './sync-shedule.service';
 
+const RABBITMQ_URL = process.env.RABBITMQ_URL;
+
+if (!RABBITMQ_URL) {
+  throw new Error('RABBITMQ_URL is not defined');
+}
+
 @Module({
   imports: [
     ScheduleModule.forRoot(), ClientsModule.register([
@@ -12,7 +18,7 @@ import { SyncSheduleService } from './sync-shedule.service';
         name: 'MSTUCA_SCHEDULE_SERVICE',
         transport: Transport.RMQ,
         options: {
-          urls: ['amqp://user:password@rabbitmq:5672'],
+          urls: [RABBITMQ_URL],
           queue: 'data_queue',
           queueOptions: {
             durable: false,

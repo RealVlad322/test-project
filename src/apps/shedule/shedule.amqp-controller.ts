@@ -1,4 +1,4 @@
-import { SheduleSaveManyDto } from '@/shared/dtos';
+import { AmqpEvents, SheduleSaveManyDto } from '@/shared/dtos';
 import { Controller } from '@nestjs/common';
 import { EventPattern } from '@nestjs/microservices';
 
@@ -8,7 +8,7 @@ import { SheduleService } from './shedule.service';
 export class SheduleAmqpController {
   constructor(private readonly sheduleService: SheduleService) {}
 
-  @EventPattern('save.many')
+  @EventPattern(AmqpEvents.SAVE_MANY)
   // eslint-disable-next-line @typescript-eslint/require-await
   async saveMany(data: SheduleSaveManyDto): Promise<void> {
     try {

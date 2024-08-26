@@ -35,7 +35,7 @@ services:
       - mongo
       - rabbitmq
     environment:
-      DATABASE_URL: mongodb://mongo:27017/your-database
+      DATABASE_URL: mongodb://mongo:27017/
       RABBITMQ_URL: amqp://user:password@rabbitmq:5672
     networks:
       - backend

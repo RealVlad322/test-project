@@ -10,6 +10,17 @@ import { MstucaSheduleController } from './mstuca-shedule.controller';
 import { MstucaSheduleService } from './mstuca-shedule.service';
 import { MstucaStatXlsxConverterService } from './mstuca-stat-xslx-converter.service';
 
+const RABBITMQ_URL = process.env.RABBITMQ_URL;
+const DATABASE_URL = process.env.DATABASE_URL;
+
+if (!RABBITMQ_URL) {
+  throw new Error('RABBITMQ_URL is not defined');
+}
+
+if (!DATABASE_URL) {
+  throw new Error('DATABASE_URL is no defined');
+}
+
 @Module({
   imports: [
     ClientsModule.register([
@@ -17,7 +28,7 @@ import { MstucaStatXlsxConverterService } from './mstuca-stat-xslx-converter.ser
         name: 'MSTUCA_SCHEDULE_SERVICE',
         transport: Transport.RMQ,
         options: {
-          urls: ['amqp://user:password@rabbitmq:5672'],
+          urls: [RABBITMQ_URL],
           queue: 'data_queue',
           queueOptions: {
             durable: false,
@@ -25,7 +36,7 @@ import { MstucaStatXlsxConverterService } from './mstuca-stat-xslx-converter.ser
         },
       },
     ]),
-    MongooseModule.forRoot('mongodb://mongo:27017/'),
+    MongooseModule.forRoot(DATABASE_URL),
     MongooseModule.forFeature([{ name: Link.name, schema: LinkSchema }]),
   ],
   controllers: [MstucaSheduleAmqpController, MstucaSheduleController],
