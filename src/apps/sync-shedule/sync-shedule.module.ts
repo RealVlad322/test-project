@@ -12,7 +12,7 @@ import { SyncSheduleService } from './sync-shedule.service';
         name: 'MSTUCA_SCHEDULE_SERVICE',
         transport: Transport.RMQ,
         options: {
-          urls: ['amqp://localhost:5672'],
+          urls: ['amqp://user:password@rabbitmq:5672'],
           queue: 'data_queue',
           queueOptions: {
             durable: false,

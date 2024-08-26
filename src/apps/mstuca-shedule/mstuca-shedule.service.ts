@@ -20,7 +20,7 @@ export class MstucaSheduleService {
     this.client = ClientProxyFactory.create({
       transport: Transport.RMQ,
       options: {
-        urls: ['amqp://localhost:5672'],
+        urls: ['amqp://user:password@rabbitmq:5672'],
         queue: 'save_queue',
         queueOptions: {
           durable: false,
