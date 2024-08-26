@@ -9,7 +9,7 @@ const appName = process.env.APP;
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(SyncSheduleModule);
   app.useGlobalPipes(new ValidationPipe());
-  await app.listen(3000, '0.0.0.0');
+  await app.listen(3004, '0.0.0.0');
   console.log('appName-', appName, await app.getUrl(), 't=', t);
 }
 
