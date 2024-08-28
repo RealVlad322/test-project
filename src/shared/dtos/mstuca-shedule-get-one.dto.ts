@@ -5,5 +5,8 @@ export class MstucaSheduleGetOneDto {
   declare id: string;
 
   @IsString()
-  declare hash: string;
+  declare start: string;
+
+  @IsString()
+  declare finish: string;
 }

@@ -9,7 +9,7 @@ export class MstucaSheduleController {
 
   @Get('one')
   async getOne(@Query() query: MstucaSheduleGetOneDto): Promise<CreateSheduleDto[]> {
-    const result = await this.mstucaSheduleService.getOne(query.id, query.hash);
+    const result = await this.mstucaSheduleService.getOne(+query.id, query.start, query.finish);
 
     return result;
   }

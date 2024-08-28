@@ -1,71 +1,46 @@
 import { Injectable } from '@nestjs/common';
+import groupBy from 'lodash/groupBy';
 
-import { MstucaFullstatResult } from '../../../apps/mstuca-shedule/mstuca-stat-xslx-converter.service';
-import { CreateSheduleDto } from '../../dtos';
+import { CreateSheduleDto, SubjectDto } from '../../dtos';
+import { MstucaResponse } from '../mstuca-api/types';
 
 @Injectable()
 export class MstucaSheduleMapperService {
-  getAllMappedShedule(fullStat: MstucaFullstatResult): CreateSheduleDto[] {
+  getAllMappedShedule(fullStat: MstucaResponse[]): CreateSheduleDto[] {
     const result: CreateSheduleDto[] = [];
-    const shedule: {
-      name?: string;
-      grade?: number;
-      group?: number;
-      faculty?: string;
-      date?: string;
-      subjects?: any[];
-    } = {};
 
-    const splitedName = fullStat.name.split(' ');
-    const grade = splitedName[1].slice(0, 1);
-    const group = splitedName[1].slice(2, 3);
-    const faculty = 'ФПМиВТ';
-    const subjectTeacherNameMap = new Map(
-      fullStat.teacherAndSubject.map((i) => [i.teacherName.split(',')[0]?.trim(), i.subjectName]),
-    );
+    const groupedStat = Object.entries(groupBy(fullStat, 'date'));
 
-    shedule.name = splitedName[0];
-    shedule.grade = +grade;
-    shedule.group = +group;
-    shedule.faculty = faculty;
-    shedule.subjects = [];
-    fullStat.full.forEach((item) => {
-      const date = item.date;
-      shedule.subjects = [];
-      shedule.date = date;
+    groupedStat.forEach(([date, item]) => {
+      const shedule: {
+        name?: string;
+        grade?: number;
+        group?: number;
+        faculty?: string;
+        date?: string;
+        subjects?: any[];
+      } = { date, grade: 4, group: 1 };
 
-      const firstSubject = item.firstSubject;
-      const secondSubject = item.secondSubject;
-      const thirdSubject = item.thirdSubject;
-      const fourthSubject = item.fourthSubject;
-      const fifthSubject = item.fifthSubject;
-      const sixthSubject = item.sixthSubject;
-      const seventhSubject = item.seventhSubject;
-      const subjects = [
-        firstSubject,
-        secondSubject,
-        thirdSubject,
-        fourthSubject,
-        fifthSubject,
-        sixthSubject,
-        seventhSubject,
-      ];
+      shedule.subjects = item.map<SubjectDto>((sub) => {
+        const name = sub.discipline;
+        const type = sub.kindOfWork;
+        const place = sub.auditorium;
+        const index = sub.lessonNumberStart;
+        const teacher = sub.lecturer;
+        const address = sub.building;
+        const sheduleName = sub.stream;
 
-      subjects.forEach((sub, index) => {
-        if (sub) {
-          const subjectName = subjectTeacherNameMap.get(sub.split(',')[1]?.trim());
-          const subject = {
-            index: index + 1,
-            name: subjectName,
-            type: sub.split(',')[0]?.trim(),
-            place: sub.split(',')[3]?.trim(),
-            teacher: sub.split(',')[1]?.trim(),
-          };
-          shedule.subjects?.push(subject);
-        }
+        shedule.name ||= sheduleName;
+
+        return {
+          index,
+          name,
+          type,
+          place,
+          teacher,
+          address,
+        };
       });
-
-      result.push({ ...shedule } as CreateSheduleDto);
     });
 
     return result;

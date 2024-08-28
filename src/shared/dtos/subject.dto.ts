@@ -15,4 +15,7 @@ export class SubjectDto {
 
   @IsString()
   declare teacher: string;
+
+  @IsString()
+  declare address: string;
 }

@@ -8,7 +8,7 @@ export class MstucaLinkHttpService {
   constructor(private readonly mstucaApi: MstucaApiService) {}
 
   async getLinksForCreate(): Promise<CreateLinkDto[]> {
-    const result = await this.mstucaApi.getHTMLPage();
+    const result = await this.mstucaApi.getPage();
 
     const $ = cheerio.load(result);
     const t: CreateLinkDto[] = [];

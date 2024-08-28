@@ -39,11 +39,14 @@ export class MstucaSheduleService {
     return this.linkModel.find().exec();
   }
 
-  async getOne(id: string, hash: string): Promise<CreateSheduleDto[]> {
-    const result = await this.mstucaApi.getShedule(id, hash);
-    const convertedResult = this.converter.convertXlsxToJson(result);
+  async getOne(id: number, start: string, finish: string): Promise<CreateSheduleDto[]> {
+    const result = await this.mstucaApi.getShedule2(id, { start, finish, Ing: 1 });
 
-    return this.mstucaSheduleMapper.getAllMappedShedule(convertedResult);
+    const mappedResult = this.mstucaSheduleMapper.getAllMappedShedule(result);
+
+    await this.sendToSave(mappedResult);
+
+    return mappedResult;
   }
 
   async getAllList(): Promise<void> {
@@ -56,13 +59,13 @@ export class MstucaSheduleService {
     }));
 
     result.forEach((val) => {
-      const mappedResult = this.mstucaSheduleMapper.getAllMappedShedule(val);
+      const mappedResult = this.mstucaSheduleMapper.getAllMappedShedule([]);
 
       void this.sendToSave(mappedResult);
     });
   }
 
-  async sendToSave(data: CreateSheduleDto[]): Promise<void> {
+  private async sendToSave(data: CreateSheduleDto[]): Promise<void> {
     try {
       const formatedData: SheduleSaveManyDto = { shedules: data };
       await this.client.send(AmqpEvents.SAVE_MANY, formatedData).toPromise();
