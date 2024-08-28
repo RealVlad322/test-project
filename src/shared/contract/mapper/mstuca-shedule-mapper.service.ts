@@ -41,6 +41,9 @@ export class MstucaSheduleMapperService {
           address,
         };
       });
+
+      // @ts-ignore
+      result.push(shedule);
     });
 
     return result;
