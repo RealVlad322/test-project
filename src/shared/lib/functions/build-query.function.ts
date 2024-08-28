@@ -1,3 +1,5 @@
+import isArray from 'lodash/isArray';
+
 export function buildQuery(queryParams: BuildQueryParams): string {
   const searchParams = new URLSearchParams();
 

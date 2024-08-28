@@ -27,7 +27,7 @@ async function bootstrap(): Promise<void> {
       },
     },
   });
-  // app.enableCors({ origin: 'http://localhost:8080' });
+  app.enableCors({ origin: 'http://localhost:8080' });
   await app.startAllMicroservices();
   await app.listen(3002, '0.0.0.0');
   console.log('appName-', appName, await app.getUrl(), 't=', t);
