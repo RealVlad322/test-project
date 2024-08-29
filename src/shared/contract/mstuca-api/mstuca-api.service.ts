@@ -25,6 +25,15 @@ export class MstucaApiService {
     return result;
   }
 
+  async getTeacherShedules(id: number, query: { start: string; finish: string; Ing: number }, signal?: AbortSignal): Promise<MstucaResponse[]> {
+    const result = await this.http.get<MstucaResponse[]>(`https://ruz.mstuca.ru/api/schedule/person/${id}`, {
+      signal,
+      query,
+    });
+
+    return result;
+  }
+
   async getPage(signal?: AbortSignal): Promise<string> {
     const result = await this.http.get<string>(`https://www.mstuca.ru/students/shedule/?SECTION_ID=95`, {
       signal,

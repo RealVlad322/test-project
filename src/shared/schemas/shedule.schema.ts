@@ -1,8 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
-import { SubjectDto } from '../dtos';
-
 export type SheduleDocument = HydratedDocument<Shedule>;
 
 @Schema()
@@ -14,7 +12,7 @@ export class Shedule {
   declare faculty: string;
 
   @Prop({ required: true })
-  declare name: string;
+  declare groupName: string;
 
   @Prop({ required: true })
   declare group: number;
@@ -28,8 +26,23 @@ export class Shedule {
   @Prop()
   declare week: number;
 
+  @Prop({ required: true })
+  declare index: number;
+
+  @Prop({ required: true })
+  declare discipline: string;
+
+  @Prop({ required: true })
+  declare type: string;
+
   @Prop()
-  declare subjects: SubjectDto[];
+  declare place: string;
+
+  @Prop({ required: true })
+  declare teacher: string;
+
+  @Prop()
+  declare address: string;
 }
 
 export const SheduleSchema = SchemaFactory.createForClass(Shedule);

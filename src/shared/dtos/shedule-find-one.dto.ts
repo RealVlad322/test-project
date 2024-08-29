@@ -3,14 +3,21 @@ import { IsDateString, IsEnum, IsNumber, IsOptional, IsString } from 'class-vali
 import { Directions } from './enums';
 
 export class SheduleGetListDto {
+  @IsOptional()
   @IsNumber()
-  declare grade: number;
+  declare grade?: number;
 
+  @IsOptional()
   @IsString()
-  declare name?: string;
+  declare groupName?: string;
 
+  @IsOptional()
   @IsNumber()
-  declare group: number;
+  declare group?: number;
+
+  @IsOptional()
+  @IsString()
+  declare teacher?: string;
 
   @IsDateString()
   declare startTimeStamp: string;

@@ -35,7 +35,8 @@ export class MstucaSheduleService {
     });
   }
 
-  async findAllLinks(): Promise<Link[]> { // TODO: переделать, нужно это делать м микросервисе mstuca-link
+  async findAllLinks(): Promise<Link[]> {
+    // TODO: переделать, нужно это делать м микросервисе mstuca-link
     return this.linkModel.find().exec();
   }
 
@@ -49,14 +50,27 @@ export class MstucaSheduleService {
     return mappedResult;
   }
 
+  async getOneForTeacher(id: number, start: string, finish: string): Promise<CreateSheduleDto[]> {
+    // TODO: переименовать!!!
+    const result = await this.mstucaApi.getTeacherShedules(id, { start, finish, Ing: 1 });
+
+    const mappedResult = this.mstucaSheduleMapper.getAllMappedShedule(result);
+
+    await this.sendToSave(mappedResult);
+
+    return mappedResult;
+  }
+
   async getAllList(): Promise<void> {
     const links = await this.findAllLinks();
 
-    const result = await Promise.all(links.map(async ({ id, hash }) => {
-      const result = await this.mstucaApi.getShedule(id, hash);
+    const result = await Promise.all(
+      links.map(async ({ id, hash }) => {
+        const result = await this.mstucaApi.getShedule(id, hash);
 
-      return this.converter.convertXlsxToJson(result);
-    }));
+        return this.converter.convertXlsxToJson(result);
+      }),
+    );
 
     result.forEach((val) => {
       const mappedResult = this.mstucaSheduleMapper.getAllMappedShedule([]);

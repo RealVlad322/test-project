@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import groupBy from 'lodash/groupBy';
 
-import { CreateSheduleDto, SubjectDto } from '../../dtos';
+import { CreateSheduleDto } from '../../dtos';
 import { MstucaResponse } from '../mstuca-api/types';
 
 @Injectable()
@@ -12,38 +12,29 @@ export class MstucaSheduleMapperService {
     const groupedStat = Object.entries(groupBy(fullStat, 'date'));
 
     groupedStat.forEach(([date, item]) => {
-      const shedule: {
-        name?: string;
-        grade?: number;
-        group?: number;
-        faculty?: string;
-        date?: string;
-        subjects?: any[];
-      } = { date, grade: 4, group: 1 };
-
-      shedule.subjects = item.map<SubjectDto>((sub) => {
-        const name = sub.discipline;
-        const type = sub.kindOfWork;
-        const place = sub.auditorium;
-        const index = sub.lessonNumberStart;
-        const teacher = sub.lecturer;
-        const address = sub.building;
-        const sheduleName = sub.stream;
-
-        shedule.name ||= sheduleName;
-
-        return {
-          index,
-          name,
-          type,
-          place,
-          teacher,
-          address,
+      item.forEach((sub) => {
+        const shedule: CreateSheduleDto = {
+          date,
+          grade: 4,
+          group: 1,
+          discipline: '',
+          faculty: '',
+          groupName: '',
+          index: 0,
+          type: '',
+          place: '',
+          teacher: '',
         };
-      });
+        shedule.discipline = sub.discipline;
+        shedule.type = sub.kindOfWork;
+        shedule.place = sub.auditorium;
+        shedule.index = sub.lessonNumberStart;
+        shedule.teacher = sub.lecturer;
+        shedule.address = sub.building;
+        shedule.groupName = sub.stream;
 
-      // @ts-ignore
-      result.push(shedule);
+        result.push(shedule);
+      });
     });
 
     return result;
