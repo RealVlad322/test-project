@@ -50,7 +50,7 @@ export class MstucaSheduleService {
     return mappedResult;
   }
 
-  async getOneForTeacher(id: number, start: string, finish: string): Promise<CreateSheduleDto[]> {
+  async getOneForTeacher(id: string, start: string, finish: string): Promise<CreateSheduleDto[]> {
     // TODO: переименовать!!!
     const result = await this.mstucaApi.getTeacherShedules(id, { start, finish, Ing: 1 });
 
