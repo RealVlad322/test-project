@@ -16,7 +16,7 @@ export class MstucaSheduleController {
 
   @Get('teacher')
   async getTeacher(@Query() query: MstucaSheduleGetOneDto): Promise<CreateSheduleDto[]> {
-    const result = await this.mstucaSheduleService.getOne(+query.id, query.start, query.finish);
+    const result = await this.mstucaSheduleService.getOneForTeacher(+query.id, query.start, query.finish);
 
     return result;
   }
