@@ -46,7 +46,7 @@ export class SheduleService {
     try {
       await this.sheduleModel
         .findOneAndUpdate(
-          { name: data.groupName, grade: data.grade, group: data.group, date: data.date },
+          { groupName: data.groupName, grade: data.grade, group: data.group, date: data.date },
           data,
           { upsert: true },
         )
