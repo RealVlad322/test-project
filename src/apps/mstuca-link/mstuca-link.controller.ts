@@ -1,7 +1,6 @@
 import { CreateLinkDto, MstucaLinkGetListDto } from '@/shared/dtos';
 import { Link } from '@/shared/schemas';
 import { Body, Controller, Delete, Get, Post, Query } from '@nestjs/common';
-import { Cron, CronExpression } from '@nestjs/schedule';
 
 import { MstucaLinkHttpService } from './mstuca-link.http-service';
 import { MstucaLinkService } from './mstuca-link.service';
@@ -55,7 +54,7 @@ export class MstucaLinkController {
     });
   }
 
-  @Cron(CronExpression.EVERY_DAY_AT_1AM)
+  // @Cron(CronExpression.EVERY_DAY_AT_1AM)
   async syncLinks(): Promise<void> {
     const result = await this.mstucaLinkHttpService.getLinksForCreate();
 
