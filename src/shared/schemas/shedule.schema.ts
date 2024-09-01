@@ -5,46 +5,46 @@ export type SheduleDocument = HydratedDocument<Shedule>;
 
 @Schema()
 export class Shedule {
-  @Prop({ required: true })
+  @Prop({ required: true, type: String })
   declare grade: number;
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: String })
   declare faculty: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: String })
   declare groupName: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: Number })
   declare group: number;
 
-  @Prop()
+  @Prop({ type: Number, subtype: String })
   declare subgroup: number | string | null;
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: String })
   declare date: string;
 
-  @Prop()
+  @Prop({ type: Number })
   declare week: number;
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: Number })
   declare index: number;
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: String })
   declare discipline: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: String })
   declare type: string;
 
-  @Prop()
+  @Prop({ type: String })
   declare place: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, type: String })
   declare teacher: string;
 
-  @Prop()
+  @Prop({ type: String })
   declare address: string;
 
-  @Prop()
+  @Prop({ type: String })
   declare syncedAt: string;
 }
 
