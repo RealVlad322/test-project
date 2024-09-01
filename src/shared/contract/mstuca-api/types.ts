@@ -11,4 +11,8 @@ export interface MstucaResponse {
   lessonNumberStart: number;
   stream_facultyoid: number;
   stream: string;
+  subGroup: string | number | null;
+  subGroupOid: number | null;
+  subgroup_facultyoid: number | null;
+  duration: number;
 }

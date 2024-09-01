@@ -15,7 +15,7 @@ export class SheduleOut {
 
   @IsOptional()
   @IsNumber()
-  declare subgroup?: number;
+  declare subgroup?: number | string | null;
 
   @IsString()
   declare date: string;
@@ -42,4 +42,7 @@ export class SheduleOut {
   @IsOptional()
   @IsString()
   declare address?: string;
+
+  @IsString()
+  declare syncedAt: string;
 }

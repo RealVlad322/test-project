@@ -20,11 +20,18 @@ export class SheduleService {
 
   async getShedules(query: SheduleGetListDto): Promise<Shedule[]> {
     const { grade, groupName, group, startTimeStamp, endTimeStamp, sortByDate, teacher } = query;
-    const searchQuery: any = { // TODO: remove any
+    const searchQuery: any = {
+      // TODO: remove any
       date: { $gte: startTimeStamp, $lte: endTimeStamp },
-      grade,
-      group,
     };
+
+    if (grade) {
+      searchQuery.grade = grade;
+    }
+
+    if (group) {
+      searchQuery.group = group;
+    }
 
     if (groupName) {
       searchQuery.groupName = groupName;
@@ -46,7 +53,12 @@ export class SheduleService {
     try {
       await this.sheduleModel
         .findOneAndUpdate(
-          { groupName: data.groupName, grade: data.grade, group: data.group, date: data.date },
+          {
+            groupName: data.groupName,
+            grade: data.grade,
+            date: data.date,
+            teacher: data.teacher,
+          },
           data,
           { upsert: true },
         )

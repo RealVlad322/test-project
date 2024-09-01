@@ -18,7 +18,7 @@ export class Shedule {
   declare group: number;
 
   @Prop()
-  declare subgroup: number;
+  declare subgroup: number | string | null;
 
   @Prop({ required: true })
   declare date: string;
@@ -43,6 +43,9 @@ export class Shedule {
 
   @Prop()
   declare address: string;
+
+  @Prop()
+  declare syncedAt: string;
 }
 
 export const SheduleSchema = SchemaFactory.createForClass(Shedule);

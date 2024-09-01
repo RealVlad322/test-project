@@ -10,7 +10,7 @@ export class MstucaSheduleMapperService {
     fullStat.forEach((sub) => {
       const shedule: CreateSheduleDto = {
         date: sub.date,
-        grade: 4,
+        grade: 0,
         group: 1,
         discipline: '',
         faculty: '',
@@ -19,16 +19,25 @@ export class MstucaSheduleMapperService {
         type: '',
         place: '',
         teacher: '',
+        syncedAt: new Date().toISOString(),
       };
       shedule.discipline = sub.discipline;
       shedule.type = sub.kindOfWork;
       shedule.place = sub.auditorium;
-      shedule.index = sub.lessonNumberStart;
       shedule.teacher = sub.lecturer;
       shedule.address = sub.building;
       shedule.groupName = sub.stream;
+      shedule.grade = sub.stream_facultyoid;
+      shedule.subgroup = sub.subGroup;
 
-      result.push({ ...sub, ...shedule });
+      if (sub.duration > 2) {
+        shedule.index = sub.lessonNumberStart;
+        result.push({ ...shedule });
+      }
+
+      shedule.index = sub.lessonNumberEnd;
+
+      result.push({ ...shedule });
     });
 
     return result;
