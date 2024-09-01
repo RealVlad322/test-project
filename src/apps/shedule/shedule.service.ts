@@ -58,6 +58,7 @@ export class SheduleService {
             grade: data.grade,
             date: data.date,
             teacher: data.teacher,
+            index: data.index,
           },
           data,
           { upsert: true },
