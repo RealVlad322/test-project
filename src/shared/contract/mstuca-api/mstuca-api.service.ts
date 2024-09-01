@@ -33,8 +33,6 @@ export class MstucaApiService {
       query,
     });
 
-    console.log(result);
-
     return result;
   }
 
