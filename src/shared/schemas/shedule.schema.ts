@@ -17,8 +17,8 @@ export class Shedule {
   @Prop({ required: true, type: Number })
   declare group: number;
 
-  @Prop({ type: Number, subtype: String })
-  declare subgroup: number | string | null;
+  @Prop({ type: String })
+  declare subgroup: string | null;
 
   @Prop({ required: true, type: String })
   declare date: string;
