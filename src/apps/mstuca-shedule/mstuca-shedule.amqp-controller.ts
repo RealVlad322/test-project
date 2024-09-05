@@ -10,6 +10,11 @@ export class MstucaSheduleAmqpController {
 
   @EventPattern(AmqpEvents.SYNC_ALL)
   async syncAll(): Promise<void> {
-    await this.mstucaSheduleService.getAllList();
+    await this.mstucaSheduleService.getAllListTeacher();
+  }
+
+  @EventPattern(AmqpEvents.SYNC_ALL_STUDENTS)
+  async syncAllStudents(): Promise<void> {
+    await this.mstucaSheduleService.getAllListStudent();
   }
 }

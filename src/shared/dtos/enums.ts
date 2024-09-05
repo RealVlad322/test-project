@@ -5,6 +5,7 @@ export enum Directions {
 
 export enum AmqpEvents {
   SYNC_ALL = 'sync.all',
+  SYNC_ALL_STUDENTS = 'sync.allstudents',
   SAVE_MANY = 'save.many',
 }
 

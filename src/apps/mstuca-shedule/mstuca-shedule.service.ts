@@ -61,21 +61,35 @@ export class MstucaSheduleService {
     return mappedResult;
   }
 
-  async getAllList(): Promise<void> {
-    const links = await this.findAllLinks();
+  // eslint-disable-next-line @typescript-eslint/require-await
+  async getAllListStudent(): Promise<void> {
+    new Array(165).fill(1).forEach((v, i) => {
+      void this.mstucaApi
+        .getShedule2(i + 616, { start: '2024-09-01', finish: '2024-12-31', Ing: 1 })
+        .then((result) => {
+          if (result.length) {
+            const mappedResult = this.mstucaSheduleMapper.getAllMappedShedule(result);
+            void this.sendToSave(mappedResult);
+          }
+        });
+    });
+  }
 
-    const result = await Promise.all(
-      links.map(async ({ id, hash }) => {
-        const result = await this.mstucaApi.getShedule(id, hash);
-
-        return this.converter.convertXlsxToJson(result);
-      }),
-    );
-
-    result.forEach((val) => {
-      const mappedResult = this.mstucaSheduleMapper.getAllMappedShedule([]);
-
-      void this.sendToSave(mappedResult);
+  // eslint-disable-next-line @typescript-eslint/require-await
+  async getAllListTeacher(): Promise<void> {
+    new Array(208).fill(1).forEach((v, i) => {
+      void this.mstucaApi
+        .getTeacherShedules(`25001.281474976726${i + 478}`, {
+          start: '2024-09-01',
+          finish: '2024-12-31',
+          Ing: 1,
+        })
+        .then((result) => {
+          if (result.length) {
+            const mappedResult = this.mstucaSheduleMapper.getAllMappedShedule(result);
+            void this.sendToSave(mappedResult);
+          }
+        });
     });
   }
 

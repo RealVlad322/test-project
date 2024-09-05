@@ -25,9 +25,17 @@ export class SyncSheduleService {
     });
   }
 
-  async syncAll(): Promise<void> {
+  async syncAllTeachers(): Promise<void> {
     try {
       await this.client.send(AmqpEvents.SYNC_ALL, {}).toPromise();
+    } catch (err) {
+      console.log('Error', err);
+    }
+  }
+
+  async syncAllStudents(): Promise<void> {
+    try {
+      await this.client.send(AmqpEvents.SYNC_ALL_STUDENTS, {}).toPromise();
     } catch (err) {
       console.log('Error', err);
     }
