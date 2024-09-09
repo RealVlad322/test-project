@@ -73,66 +73,59 @@ export class HttpAgent {
     options.showToast ??= true;
     options.headers ??= {};
 
-    try {
-      const {
-        query,
-        headers: headersInit,
-        responseType = 'json',
-        signal,
-        credentials,
-        referrer,
-        mode,
-        ...contentOptions
-      } = options;
+    const {
+      query,
+      headers: headersInit,
+      responseType = 'json',
+      signal,
+      credentials,
+      referrer,
+      mode,
+      ...contentOptions
+    } = options;
 
-      const hasQuery = !!(query && Object.keys(query).length);
-      const fullUrl = `${url}${hasQuery ? `?${buildQuery(query)}` : ''}`;
+    const hasQuery = !!(query && Object.keys(query).length);
+    const fullUrl = `${url}${hasQuery ? `?${buildQuery(query)}` : ''}`;
 
-      const res = await fetch(fullUrl, {
-        method,
-        signal,
-        credentials,
-        mode,
-        headers: {
-          'Accept': 'application/json',
-          'Cookie': headersInit.cookie as string,
-          ...'json' in options && { 'Content-Type': 'application/json; charset=utf-8' },
-          ...headersInit,
-        },
-        referrer,
-        body:
+    const res = await fetch(fullUrl, {
+      method,
+      signal,
+      credentials,
+      mode,
+      headers: {
+        'Accept': 'application/json',
+        'Cookie': headersInit.cookie as string,
+        ...'json' in options && { 'Content-Type': 'application/json; charset=utf-8' },
+        ...headersInit,
+      },
+      referrer,
+      body:
           'json' in contentOptions
             ? JSON.stringify(contentOptions.json!)
             : 'blob' in contentOptions
               ? contentOptions.blob
               : undefined,
-      });
+    });
 
-      if (responseType === 'response') {
-        return res;
-      }
+    if (responseType === 'response') {
+      return res;
+    }
 
-      const data: unknown = await (responseType === 'json'
-        ? res.text().then((t) => t ? (JSON.parse(t) as unknown) : null)
-        : responseType === 'blob'
-          ? res.blob()
-          : responseType === 'text'
-            ? res.text()
-            : res.arrayBuffer());
+    const data: unknown = await (responseType === 'json'
+      ? res.text().then((t) => t ? (JSON.parse(t) as unknown) : null)
+      : responseType === 'blob'
+        ? res.blob()
+        : responseType === 'text'
+          ? res.text()
+          : res.arrayBuffer());
 
-      if (res.status >= 400) {
-        const err = new HttpException(res.statusText, res.status, data as any);
-        console.error(err);
-
-        throw err;
-      }
-
-      return data;
-    } catch (err: any) {
-      console.error(err);
+    if (res.status >= 400) {
+      const err = new HttpException(res.statusText, res.status, data as any);
 
       throw err;
     }
+
+    return data;
   }
 
   private _replacePathParams(path: string, params: HttpParams): string {

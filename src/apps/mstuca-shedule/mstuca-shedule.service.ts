@@ -13,6 +13,7 @@ const RABBITMQ_URL = process.env.RABBITMQ_URL;
 @Injectable()
 export class MstucaSheduleService {
   private readonly client: ClientProxy;
+  private syncedIds: number[] = [];
   constructor(
     private readonly mstucaApi: MstucaApiService,
     private readonly converter: MstucaStatXlsxConverterService,
@@ -63,14 +64,29 @@ export class MstucaSheduleService {
 
   // eslint-disable-next-line @typescript-eslint/require-await
   async getAllListStudent(): Promise<void> {
+    if (this.syncedIds.length > 150) {
+      this.syncedIds = [];
+    }
+
     new Array(165).fill(1).forEach((v, i) => {
+      const id = i + 616;
+
+      if (this.syncedIds.includes(id)) {
+        return;
+      }
+
       void this.mstucaApi
-        .getShedule2(i + 616, { start: '2024-09-01', finish: '2024-12-31', Ing: 1 })
+        .getShedule2(id, { start: '2024-09-01', finish: '2024-12-31', Ing: 1 })
         .then((result) => {
+          this.syncedIds.push(id);
+
           if (result.length) {
             const mappedResult = this.mstucaSheduleMapper.getAllMappedShedule(result);
             void this.sendToSave(mappedResult);
           }
+        })
+        .catch(async (reason) => {
+          // console.log(reason);
         });
     });
   }

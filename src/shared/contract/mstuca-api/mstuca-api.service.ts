@@ -26,8 +26,6 @@ export class MstucaApiService {
   }
 
   async getTeacherShedules(id: string, query: { start: string; finish: string; Ing: number }, signal?: AbortSignal): Promise<MstucaResponse[]> {
-    console.log(`https://ruz.mstuca.ru/api/schedule/person/${id}`);
-
     const result = await this.http.get<MstucaResponse[]>(`https://ruz.mstuca.ru/api/schedule/person/${id}`, {
       signal,
       query,

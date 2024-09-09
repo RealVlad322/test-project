@@ -11,8 +11,9 @@ export interface MstucaResponse {
   lessonNumberStart: number;
   stream_facultyoid: number;
   stream: string;
-  subGroup: string | number | null;
+  subGroup: string | null;
   subGroupOid: number | null;
   subgroup_facultyoid: number | null;
+  parentschedule?: string | null;
   duration: number;
 }
