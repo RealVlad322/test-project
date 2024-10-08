@@ -42,7 +42,7 @@ export class MstucaSheduleService {
   }
 
   async getOne(id: number, start: string, finish: string): Promise<CreateSheduleDto[]> {
-    const result = await this.mstucaApi.getShedule2(id, { start, finish, Ing: 1 });
+    const result = await this.mstucaApi.getShedule2(id, { start, finish, Ing: 1 }, '1');
 
     const mappedResult = this.mstucaSheduleMapper.getAllMappedShedule(result);
 
@@ -53,7 +53,7 @@ export class MstucaSheduleService {
 
   async getOneForTeacher(id: string, start: string, finish: string): Promise<CreateSheduleDto[]> {
     // TODO: переименовать!!!
-    const result = await this.mstucaApi.getTeacherShedules(id, { start, finish, Ing: 1 });
+    const result = await this.mstucaApi.getTeacherShedules(id, { start, finish, Ing: 1 }, '1');
 
     const mappedResult = this.mstucaSheduleMapper.getAllMappedShedule(result);
 
@@ -68,6 +68,8 @@ export class MstucaSheduleService {
       this.syncedIds = [];
     }
 
+    let proxyCount = 0;
+
     new Array(165).fill(1).forEach((v, i) => {
       const id = i + 616;
 
@@ -76,9 +78,15 @@ export class MstucaSheduleService {
       }
 
       void this.mstucaApi
-        .getShedule2(id, { start: '2024-09-01', finish: '2024-12-31', Ing: 1 })
+        .getShedule2(id, { start: '2024-09-01', finish: '2024-12-31', Ing: 1 }, `${proxyCount}`)
         .then((result) => {
           this.syncedIds.push(id);
+
+          if (proxyCount === 19) {
+            proxyCount = 0;
+          } else {
+            proxyCount++;
+          }
 
           if (result.length) {
             const mappedResult = this.mstucaSheduleMapper.getAllMappedShedule(result);
@@ -93,14 +101,25 @@ export class MstucaSheduleService {
 
   // eslint-disable-next-line @typescript-eslint/require-await
   async getAllListTeacher(): Promise<void> {
+    let proxyCount = 0;
     new Array(208).fill(1).forEach((v, i) => {
       void this.mstucaApi
-        .getTeacherShedules(`25001.281474976726${i + 478}`, {
-          start: '2024-09-01',
-          finish: '2024-12-31',
-          Ing: 1,
-        })
+        .getTeacherShedules(
+          `25001.281474976726${i + 478}`,
+          {
+            start: '2024-09-01',
+            finish: '2024-12-31',
+            Ing: 1,
+          },
+          `${proxyCount}`,
+        )
         .then((result) => {
+          if (proxyCount === 19) {
+            proxyCount = 0;
+          } else {
+            proxyCount++;
+          }
+
           if (result.length) {
             const mappedResult = this.mstucaSheduleMapper.getAllMappedShedule(result);
             void this.sendToSave(mappedResult);

@@ -1,8 +1,21 @@
-
 import { HttpException, Injectable } from '@nestjs/common';
-import { RequestCredentials, RequestMode } from 'node-fetch';
+import FormData from 'form-data';
+import { Agent } from 'http';
+import fetch, { RequestCredentials, RequestMode, type Response } from 'node-fetch';
 
 import { buildQuery } from '../functions/build-query.function';
+
+function toFormData(multipart: {
+  [key: string]: Buffer | string | number | boolean | (Buffer | string | number | boolean)[];
+}): FormData {
+  const formData = new FormData();
+
+  for (const [key, value] of Object.entries(multipart)) {
+    formData.append(key, value);
+  }
+
+  return formData;
+}
 
 @Injectable()
 export class HttpAgent {
@@ -78,10 +91,6 @@ export class HttpAgent {
       headers: headersInit,
       responseType = 'json',
       signal,
-      credentials,
-      referrer,
-      mode,
-      ...contentOptions
     } = options;
 
     const hasQuery = !!(query && Object.keys(query).length);
@@ -89,22 +98,27 @@ export class HttpAgent {
 
     const res = await fetch(fullUrl, {
       method,
+      agent: options?.proxy,
       signal,
-      credentials,
-      mode,
       headers: {
         'Accept': 'application/json',
         'Cookie': headersInit.cookie as string,
         ...'json' in options && { 'Content-Type': 'application/json; charset=utf-8' },
         ...headersInit,
       },
-      referrer,
+      redirect: options.proxy ? 'follow' : 'error',
       body:
-          'json' in contentOptions
-            ? JSON.stringify(contentOptions.json!)
-            : 'blob' in contentOptions
-              ? contentOptions.blob
-              : undefined,
+        'json' in options
+          ? JSON.stringify(options.json!)
+          : 'urlencoded' in options
+            ? JSON.stringify(options.urlencoded)
+            : 'buffer' in options
+              ? options.buffer
+              : 'multipart' in options
+                ? toFormData(options.multipart!)
+                : 'text' in options
+                  ? options.text
+                  : undefined,
     });
 
     if (responseType === 'response') {
@@ -144,8 +158,14 @@ export interface HttpRequestOptions {
   headers?: HttpHeaders;
   params?: HttpParams;
   query?: HttpQuery;
+  proxy?: Agent;
   json?: HttpJson;
+  buffer?: Buffer;
+  text?: string;
   referrer?: string;
+  multipart?: {
+    [key: string]: Buffer | string | number | boolean | (Buffer | string | number | boolean)[];
+  };
   mode?: RequestMode;
   credentials?: RequestCredentials;
   blob?: Blob;

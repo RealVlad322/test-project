@@ -1,4 +1,6 @@
 import { MstucaApiService, MstucaSheduleMapperService } from '@/shared/contract';
+import { EnvService } from '@/shared/contract/services/env.service';
+import { ProxyCommonService } from '@/shared/contract/services/proxy-common.service';
 import { HttpAgent } from '@/shared/lib';
 import { Link, LinkSchema } from '@/shared/schemas';
 import { Module } from '@nestjs/common';
@@ -46,6 +48,8 @@ if (!DATABASE_URL) {
     MstucaStatXlsxConverterService,
     MstucaSheduleMapperService,
     HttpAgent,
+    ProxyCommonService,
+    EnvService,
   ],
 })
 export class MstucaSheduleModule {}

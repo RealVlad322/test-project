@@ -1,4 +1,6 @@
 import { MstucaApiService } from '@/shared/contract';
+import { EnvService } from '@/shared/contract/services/env.service';
+import { ProxyCommonService } from '@/shared/contract/services/proxy-common.service';
 import { HttpAgent } from '@/shared/lib';
 import { Link, LinkSchema } from '@/shared/schemas';
 import { Module } from '@nestjs/common';
@@ -22,6 +24,13 @@ if (!DATABASE_URL) {
     MongooseModule.forFeature([{ name: Link.name, schema: LinkSchema }]),
   ],
   controllers: [MstucaLinkController],
-  providers: [MstucaLinkService, MstucaLinkHttpService, MstucaApiService, HttpAgent],
+  providers: [
+    MstucaLinkService,
+    MstucaLinkHttpService,
+    MstucaApiService,
+    HttpAgent,
+    ProxyCommonService,
+    EnvService,
+  ],
 })
 export class MstucaLinkModule {}
