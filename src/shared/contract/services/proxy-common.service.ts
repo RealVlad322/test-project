@@ -17,7 +17,7 @@ export class ProxyCommonService implements OnModuleInit {
 
   constructor(env: EnvService) {
     try {
-      this.FILEPATH = env.getFile(PROXY_FILEPATH!, '.env/proxies.txt');
+      this.FILEPATH = env.getFile('PROXY_FILEPATH', PROXY_FILEPATH ? PROXY_FILEPATH : '.env/proxies.txt');
     } catch (err) {
       this.FILEPATH = null;
     }
