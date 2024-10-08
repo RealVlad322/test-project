@@ -6,6 +6,8 @@ import random from 'lodash/random';
 
 import { EnvService } from './env.service';
 
+const PROXY_FILEPATH = process.env.PROXY_FILEPATH;
+
 @Injectable()
 export class ProxyCommonService implements OnModuleInit {
   private readonly FILEPATH: string | null;
@@ -15,7 +17,7 @@ export class ProxyCommonService implements OnModuleInit {
 
   constructor(env: EnvService) {
     try {
-      this.FILEPATH = env.getFile('PROXY_FILEPATH', '.env/proxies.txt');
+      this.FILEPATH = env.getFile(PROXY_FILEPATH!, '.env/proxies.txt');
     } catch (err) {
       this.FILEPATH = null;
     }
