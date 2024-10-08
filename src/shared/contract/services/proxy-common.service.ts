@@ -6,7 +6,7 @@ import random from 'lodash/random';
 
 import { EnvService } from './env.service';
 
-const PROXY_FILEPATH = process.env.PROXY_FILEPATH;
+const PROXY_FILEPATH = process.env.PROXIES_PATH;
 
 @Injectable()
 export class ProxyCommonService implements OnModuleInit {
