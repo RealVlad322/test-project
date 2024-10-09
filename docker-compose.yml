@@ -30,7 +30,7 @@ services:
     image: therealyou322/backend:latest
     container_name: backend
     volumes:
-      - ./path/to/deploy/files/:/app/files
+      - /path/to/deploy/files/:/app/files
     ports:
       - "3004:3004"
       - "3001:3001"
