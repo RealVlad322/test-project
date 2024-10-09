@@ -12,7 +12,7 @@ export class SyncSheduleController {
     await this.syncSheduleService.syncAllTeachers();
   }
 
-  @Cron(CronExpression.EVERY_5_MINUTES)
+  @Cron(CronExpression.EVERY_11_HOURS)
   async syncShedulesStudents(): Promise<void> {
     await this.syncSheduleService.syncAllStudents();
   }
