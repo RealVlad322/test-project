@@ -32,7 +32,7 @@ services:
     build:
       context: .
     volumes:
-      - ./path/to/deploy/proxies.txt:/app/files/proxies.txt
+      - ./path/to/deploy/files:/app/files
     ports:
       - "3004:3004"
       - "3001:3001"
