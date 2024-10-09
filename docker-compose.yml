@@ -29,8 +29,6 @@ services:
   backend:
     image: therealyou322/backend:latest
     container_name: backend
-    build:
-      context: .
     volumes:
       - ./path/to/deploy/files:/app/files
     ports:
@@ -44,7 +42,7 @@ services:
     environment:
       DATABASE_URL: mongodb://mstuca_master:mstuca_master@mongo:27017/
       RABBITMQ_URL: amqp://user:password@rabbitmq:5672
-      PROXIES_PATH: .files/proxies.txt
+      PROXIES_PATH: /app/files/proxies.txt
     networks:
       - backend
 
