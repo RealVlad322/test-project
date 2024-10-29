@@ -69,15 +69,16 @@ export class MstucaSheduleService {
     }
 
     let proxyCount = 0;
+    const arr = new Array(165).fill(1);
 
-    new Array(165).fill(1).forEach((v, i) => {
+    for (let i = 0; i < arr.length; i++) {
       const id = i + 616;
 
       if (this.syncedIds.includes(id)) {
         return;
       }
 
-      void this.mstucaApi
+      await this.mstucaApi
         .getShedule2(id, { start: '2024-09-01', finish: '2024-12-31', Ing: 1 }, `${proxyCount}`)
         .then((result) => {
           this.syncedIds.push(id);
@@ -96,14 +97,16 @@ export class MstucaSheduleService {
         .catch(async (reason) => {
           // console.log(reason);
         });
-    });
+    }
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
   async getAllListTeacher(): Promise<void> {
     let proxyCount = 0;
-    new Array(208).fill(1).forEach((v, i) => {
-      void this.mstucaApi
+    const arr = new Array(208).fill(1);
+
+    for (let i = 0; i < arr.length; i++) {
+      await this.mstucaApi
         .getTeacherShedules(
           `25001.281474976726${i + 478}`,
           {
@@ -125,7 +128,7 @@ export class MstucaSheduleService {
             void this.sendToSave(mappedResult);
           }
         });
-    });
+    }
   }
 
   private async sendToSave(data: CreateSheduleDto[]): Promise<void> {
